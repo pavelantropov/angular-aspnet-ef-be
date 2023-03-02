@@ -1,4 +1,5 @@
 using Api;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
+builder.Services.AddDbContext<QuizContext>(options => options.UseInMemoryDatabase("quiz"));
 
 var app = builder.Build();
 
