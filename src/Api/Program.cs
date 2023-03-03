@@ -1,4 +1,4 @@
-using Api;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddDbContext<QuizContext>(options => options.UseInMemoryDatabase("quiz"));
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(Program)); // TODO setup
 
 var app = builder.Build();
 

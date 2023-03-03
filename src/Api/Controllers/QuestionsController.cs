@@ -1,4 +1,6 @@
 ﻿using Api.Models;
+using Domain;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -23,7 +25,22 @@ public class QuestionsController : ControllerBase
 	[Route(""), HttpPost]
 	public async Task<ActionResult> PostQuestion([FromBody]QuestionDto question, CancellationToken cancellation)
 	{
-		await _context.Questions.AddAsync(question, cancellation);
+		var answers = new List<Answer>();
+		
+		answers.AddRange(question.CorrectAnswers.Select(
+			answer => new Answer { Text = answer, IsCorrect = true }));
+		
+		answers.AddRange(question.WrongAnswers.Select(
+			answer => new Answer { Text = answer, IsCorrect = false }));
+
+		var newQuestion = new Question
+		{
+			Id = question.Id,
+			Text = question.Text,
+			Answers = answers
+		};
+
+		await _context.Questions.AddAsync(newQuestion, cancellation);
 		await _context.SaveChangesAsync(cancellation);
 
 		return Ok();
