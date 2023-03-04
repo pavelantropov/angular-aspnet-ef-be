@@ -2,6 +2,7 @@
 using Domain;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 
@@ -19,23 +20,22 @@ public class QuestionsController : ControllerBase
 	[Route(""), HttpGet]
 	public async Task<ActionResult> GetQuestions()
 	{
-		return Ok(_context.Questions);
+		return Ok(_context.Questions.Include(x => x.Answers));
 	}
 
 	[Route(""), HttpPost]
 	public async Task<ActionResult> PostQuestion([FromBody]QuestionDto question, CancellationToken cancellation)
 	{
 		var answers = new List<Answer>();
-		
+
 		answers.AddRange(question.CorrectAnswers.Select(
 			answer => new Answer { Text = answer, IsCorrect = true }));
-		
+
 		answers.AddRange(question.WrongAnswers.Select(
 			answer => new Answer { Text = answer, IsCorrect = false }));
 
 		var newQuestion = new Question
 		{
-			Id = question.Id,
 			Text = question.Text,
 			Answers = answers
 		};
