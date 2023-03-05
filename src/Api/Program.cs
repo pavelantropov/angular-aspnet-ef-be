@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddDbContext<QuizContext>(options => options.UseInMemoryDatabase("quiz"));
-builder.Services.AddAutoMapper(typeof(Program)); // TODO setup
+//builder.Services.AddAutoMapper(typeof(Program)); // TODO setup
 
 var app = builder.Build();
 

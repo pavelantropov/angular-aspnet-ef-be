@@ -20,7 +20,30 @@ public class QuestionsController : ControllerBase
 	[Route(""), HttpGet]
 	public async Task<ActionResult> GetQuestions()
 	{
+		// TODO mapping to dto
 		return Ok(_context.Questions.Include(x => x.Answers));
+	}
+
+	[Route("{guid:guid}"), HttpGet]
+	public async Task<ActionResult> GetQuestion(Guid guid)
+	{
+		var question = await _context.Questions
+									 .Include(x => x.Answers)
+									 .FirstOrDefaultAsync(q => q.Guid == guid);
+
+		if (question == null)
+		{
+			return NotFound();
+		}
+
+		var questionDto = new QuestionDto
+		{
+			Text = question.Text,
+			CorrectAnswers = question.Answers.Where(x => x.IsCorrect).Select(a => a.Text).ToList(),
+			WrongAnswers = question.Answers.Where(x => !x.IsCorrect).Select(a => a.Text).ToList(),
+		};
+
+		return Ok(questionDto);
 	}
 
 	[Route(""), HttpPost]
