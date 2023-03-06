@@ -5,9 +5,11 @@ VisualStudioVersion = 17.3.32505.426
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{1951FAB5-354A-4E51-A7D4-35038B6B4D30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{DF780F6D-DDDD-4869-BBE2-F66DD8491A3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{DF780F6D-DDDD-4869-BBE2-F66DD8491A3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Models", "src\Api.Models\Api.Models.csproj", "{BC75E896-947A-47DF-818E-35C04E79B38A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Models", "src\Api.Models\Api.Models.csproj", "{BC75E896-947A-47DF-818E-35C04E79B38A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{F2E88A34-ACAC-4AD9-92BD-4F2B5D9FD578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BC75E896-947A-47DF-818E-35C04E79B38A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC75E896-947A-47DF-818E-35C04E79B38A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC75E896-947A-47DF-818E-35C04E79B38A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E88A34-ACAC-4AD9-92BD-4F2B5D9FD578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E88A34-ACAC-4AD9-92BD-4F2B5D9FD578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E88A34-ACAC-4AD9-92BD-4F2B5D9FD578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E88A34-ACAC-4AD9-92BD-4F2B5D9FD578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
