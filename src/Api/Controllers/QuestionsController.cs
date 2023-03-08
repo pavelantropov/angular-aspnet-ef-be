@@ -23,8 +23,8 @@ public class QuestionsController : ControllerBase
 	[Route(""), HttpGet]
 	public async Task<ActionResult> GetQuestions(CancellationToken cancellation)
 	{
-		// TODO mapping to dto
-		return Ok(_context.Questions.Include(x => x.Answers));
+		var questions = _context.Questions.Include(x => x.Answers);
+		return Ok(_mapper.Map<List<QuestionDto>>(questions));
 	}
 
 	[Route("{guid:guid}"), HttpGet]
@@ -34,39 +34,13 @@ public class QuestionsController : ControllerBase
 									 .Include(x => x.Answers)
 									 .FirstOrDefaultAsync(q => q.Guid == guid, cancellation);
 
-		if (question == null)
-		{
-			return NotFound();
-		}
-
-		var questionDto = new QuestionDto
-		{
-			Text = question.Text,
-			CorrectAnswers = question.Answers.Where(x => x.IsCorrect).Select(a => a.Text).ToList(),
-			WrongAnswers = question.Answers.Where(x => !x.IsCorrect).Select(a => a.Text).ToList(),
-		};
-
-		return Ok(questionDto);
+		return question == null ? NotFound() : Ok(_mapper.Map<QuestionDto>(question));
 	}
 
 	[Route(""), HttpPost]
 	public async Task<ActionResult> PostQuestion([FromBody]QuestionDto question, CancellationToken cancellation)
 	{
-		var answers = new List<Answer>();
-
-		answers.AddRange(question.CorrectAnswers.Select(
-			answer => new Answer { Text = answer, IsCorrect = true }));
-
-		answers.AddRange(question.WrongAnswers.Select(
-			answer => new Answer { Text = answer, IsCorrect = false }));
-
-		var newQuestion = new Question
-		{
-			Text = question.Text,
-			Answers = answers
-		};
-
-		await _context.Questions.AddAsync(newQuestion, cancellation);
+		await _context.Questions.AddAsync(_mapper.Map<Question>(question), cancellation);
 		await _context.SaveChangesAsync(cancellation);
 
 		return Ok();
@@ -75,9 +49,6 @@ public class QuestionsController : ControllerBase
 	[Route("{guid:guid}"), HttpPut]
 	public async Task<ActionResult> UpdateQuestion(Guid guid, [FromBody] QuestionDto questionModel, CancellationToken cancellation)
 	{
-		//_context.Entry(_mapper questionData).State = EntityState.Modified;
-		//_mapper.Map<Question>(questionData);
-
 		var question = await _context.Questions
 									 .Include(x => x.Answers)
 									 .FirstOrDefaultAsync(q => q.Guid == guid, cancellation);
@@ -87,13 +58,7 @@ public class QuestionsController : ControllerBase
 			return NotFound();
 		}
 
-		question.Text = questionModel.Text;
-
-		question.Answers.Clear();
-		question.Answers.AddRange(questionModel.CorrectAnswers.Select(answer 
-			=> new Answer { Text = answer, IsCorrect = true }));
-		question.Answers.AddRange(questionModel.WrongAnswers.Select(answer 
-			=> new Answer { Text = answer, IsCorrect = false }));
+		_mapper.Map(questionModel, question);
 
 		await _context.SaveChangesAsync(cancellation);
 

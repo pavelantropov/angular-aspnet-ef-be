@@ -2,7 +2,7 @@
 using AutoMapper;
 using Domain.Entities;
 
-namespace Infrastructure.Maps;
+namespace Infrastructure.Mappings;
 
 public class QuestionMapProfile : Profile
 {

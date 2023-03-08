@@ -1,4 +1,5 @@
 using Domain;
+using Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddDbContext<QuizContext>(options => options.UseInMemoryDatabase("quiz"));
-//builder.Services.AddAutoMapper(typeof(Program)); // TODO setup
+builder.Services.AddAutoMapper(typeof(QuestionMapProfile));
 
 var app = builder.Build();
 

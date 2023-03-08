@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Maps\" />
+    <Folder Include="Mappings\" />
   </ItemGroup>
 
   <ItemGroup>
